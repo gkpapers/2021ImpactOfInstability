@@ -225,36 +225,39 @@ However, we can see that inducing instabilities through MCA improves the \new{di
 $0.75$ in each case ($p < 0.001$ for all), significantly higher than without instrumentation ($p < 0.005$ for all).
 \new{The definition of the discriminability statistic is such that if all samples derived from the a given session were
 near replicates of one another the score would be unchanging despite the increased sample size~\cite{bridgeford2020elim}}.
-Th\new{e} result\new{ing difference in discriminability} impactfully suggests the utility of perturbation methods for
+Th\new{e} result\new{ing increase in discriminability} therefore suggests the utility of perturbation methods for
 synthesizing robust and reliable individual estimates of connectivity, serving as a cost effective and context-agnostic
 method for dataset augmentation.
 
-While the \new{discriminability} of individuals is essential for the identification of \new{individual} brain networks, it is similarly reliant on
-network similarity across equivalent acquisitions (Hypothesis~2). In this case, connectomes were grouped based upon
-session, rather than subject, and the ability to distinguish one session from another was computed within-individual
-and aggregated. Both the unperturbed and pipeline perturbation settings perfectly preserved differences between
-cross-sectional sessions with a score of $1.0$ ($p < 0.005$; optimal score: $0.5$; chance: $0.5$), indicating a
-dominant session-dependent signal for all individuals despite no intended biological differences. However, while still
-significant relative to chance (score: $0.85$ and $0.88$; $p < 0.005$ for both), \new{sparse} perturbations lead to
-significantly lower discriminability of the dataset ($p < 0.005$ for all). This reduction of the difference between
-sessions suggests that \new{the added} variance \new{due to} perturbations reduces the \new{relative} impact of non-biological
-acquisition-dependent bias inherent in the brain graphs.
+While the \new{discriminability} of individuals is essential for the identification of \new{individual} brain networks,
+it is similarly reliant on
+network similarity \new{– or lack of discriminability –} across equivalent acquisitions (Hypothesis~2). In this case,
+connectomes were grouped based upon session, rather than subject, and the ability to distinguish one session from
+another \new{based on subsamples} was computed within-individual and aggregated. Both the unperturbed and \new{dense}
+perturbation settings perfectly preserved differences between sessions with a score of $1.0$ ($p < 0.005$; optimal
+score: $0.5$; chance: $0.5$), indicating a dominant session-dependent signal for all individuals despite no intended
+biological differences. However, while still significant relative to chance (score: $0.85$ and $0.88$; $p < 0.005$ for
+both), \new{sparse} perturbations lead to significantly lower discriminability of the dataset ($p < 0.005$ for all).
+This reduction of the difference between sessions suggests that \new{the added} variance \new{due to} perturbations
+reduces the \new{relative} impact of non-biological acquisition-dependent bias inherent in the \new{networks}.
 
-Though the previous sets of experiments inextricably evaluate the interaction between \new{data acquisition} and
-\new{the pipelines}, the use of subsampling allowed for characterizing the discriminability of networks sampled from within
-a single acquisition (Hypothesis~3). While this experiment could not be evaluated using reference executions, the executions performed
-with pipeline perturbations showed near perfect discrimination between subsamples, with scores of $0.99$ and $1.0$
-($p < 0.005$; optimal: $0.5$; chance: $0.5$). Given that there is no variability in data acquisition or preprocessing
-that contributes to this reliable identification of scans, the separability observed in this experiment may only be due
-to instability or bias inherent to the pipelines. The high variability introduced through input perturbations
-considerably lowered the \new{discriminability} towards chance (score: $0.71$ and $0.61$; $p < 0.005$ for all), further supporting
-this as an effective method for obtaining lower-bias estimates of individual connectivity.
+Though the previous sets of experiments inextricably evaluate the interaction between \new{data acquisition} and tool,
+the use of subsampling allowed for characterizing the discriminability of networks sampled from within a single
+acquisition (Hypothesis~3). While this experiment could not be evaluated using reference executions, the \new{networks
+generated with dense} perturbations showed near perfect discrimination between subsamples, with scores of $0.99$ and
+$1.0$ ($p < 0.005$; optimal: $0.5$; chance: $0.5$). Given that there is no variability in data acquisition\new{, due to
+undesired effects such as participant motion,} or preprocessing, the \new{ability to discriminate between equivalent
+subsamples} in this experiment may only be due to instability or bias inherent to the pipelines. The high variability
+introduced through \new{sparse} perturbations considerably lowered the \new{discriminability} towards chance (score:
+$0.71$ and $0.61$; $p < 0.005$ for all), further supporting this as an effective method for obtaining lower-bias
+estimates of individual connectivity.
 
-Across all cases, the induced perturbations showed an amplification of meaningful biological signal alongside a
-reduction of off-target signal. This result appears strikingly like a manifestation of the well-known bias-variance
+Across all cases, the induced perturbations \new{led to an increased ability to discriminate networks on the basis} of
+meaningful biological signal alongside a reduction \new{in discriminability due to} of off-target signal. This result
+appears strikingly like a manifestation of the well-known bias-variance
 tradeoff~\cite{geman1992neural} in machine learning, a concept which observes a decrease in bias as variance is
 favoured by a model. In particular, this highlights that numerical perturbations can be used to not only evaluate the
-stability of pipelines, but that the induced variance may be leveraged for the interpretation as a robust distributions
+stability of pipelines, but that the induced variance may be leveraged for the interpretation as a robust distribution
 of possible results.
 
 \subsection*{Distributions of Graph Statistics \new{Were} Reliable, But Individual Statistics \new{Were} Not}
@@ -271,27 +274,28 @@ possible number of significant digits.}
 Exploring the stability of topological features of connectomes is relevant for typical analyses, as low dimensional
 features are often more suitable than full connectomes for many analytical methods in practice~\cite{Rubinov2010-fh}.
 A separate subset of the NKIRS dataset was randomly selected to contain a single non-subsampled session for $100$
-individuals \new{($100 \times 1 \times 1$) using the pipelines and instrumentation methods to generate connectomes as above.
-Connectomes were generated $20$ times each, resulting in a dataset which also contained $4,200$ connectomes with the
-MCA simulations serving as the only source of repeated measurements.}
+individuals \new{($100 \times 1 \times 1$) using the pipelines and instrumentation methods to generate connectomes as
+above. Connectomes were generated $20$ times each, resulting in a dataset which also contained $4,200$ connectomes with
+the MCA simulations serving as the only source of repeated measurements.}
 
-The stability of several commonly-used multivariate graph features~\cite{Betzel2018-eo} was explored in
-Figure~\ref{fig:multivar}. The cumulative density of the features was computed within individuals and the mean
-density and associated standard error were computed for across individuals (Figures~\ref{fig:multivar}A and
-\ref{fig:multivar}B). There was no significant difference between the distributions for each feature across the two
-perturbation settings, suggesting that the topological features summarized by these multivariate features are robust
-across both perturbation modes.
+The stability of several commonly-used multivariate graph features~\cite{Betzel2018-eo} \new{were} explored \new{and
+are presented} in Figure~\ref{fig:multivar}. The cumulative density of the features was computed within individuals and
+the mean \new{cumulative} density and associated standard error were computed for across individuals
+(Figures~\ref{fig:multivar}A and \ref{fig:multivar}B). There was no significant difference between the distributions
+for each feature across the two perturbation settings, suggesting that the topological features summarized by these
+multivariate features are robust across both perturbation modes.
 
 In addition to the comparison of distributions, the stability of the first $5$ moments of these features was evaluated
-(Figures~\ref{fig:multivar}C and \ref{fig:multivar}D). In the face of pipeline perturbations, the feature-moments were
-stable with more than $10$ significant digits with the exception of edge weight when using the deterministic pipeline,
-though the probabilistic pipeline was more stable for all comparisons ($p < 0.0001$; exploratory). In stark contrast,
-input perturbations led to highly unstable feature-moments (Figure~\ref{fig:multivar}D), such that none contained more
-than $5$ significant digits of information and several contained less than a single significant digit, indicating a
-complete lack of reliability. This dramatic degradation in stability for individual measures strongly suggests that
-these features may be unreliable as individual biomarkers when derived from a single pipeline evaluation, though their
-reliability may be increased when studying their distributions across perturbations. A similar analysis was performed
-for univariate statistics and can be found in \sref{supsec:univar}.
+(Figures~\ref{fig:multivar}C and \ref{fig:multivar}D). In the face of \new{dense} perturbations, the feature-moments
+were stable with more than $10$ significant digits with the exception of edge weight when using the deterministic
+pipeline, though the probabilistic pipeline was more stable for all comparisons ($p < 0.0001$; exploratory). In stark
+contrast, \new{sparse} perturbations led to highly unstable feature-moments (Figure~\ref{fig:multivar}D), such that
+none contained more than $5$ significant digits of information and several contained less than a single significant
+digit, indicating a complete lack of reliability. This dramatic degradation in stability for individual measures
+strongly suggests that these features may be unreliable as individual biomarkers when derived from a single pipeline
+evaluation, though their reliability may be increased when studying their distributions across perturbations. A similar
+analysis was performed for univariate statistics \new{which obtained similar findings} and can be found in
+\sref{supsec:univar}.
 
 \subsection*{Uncertainty in Brain-Phenotype Relationships}
 
@@ -305,7 +309,7 @@ indicate random-chance performance, and the orange dots show the performance usi
 While the variability of connectomes and their features was summarized above, networks are commonly used as inputs to
 machine learning models tasked with learning brain-phenotype relationships~\cite{Dubois2016-yr}. To explore the
 stability of these analyses, we modelled the relationship between high- or low- Body Mass Index (BMI) groups and brain
-connectivity~\cite{Park2015-uj,Gupta2015-ap}, using standard dimensionality reduction and classification tools, and
+connectivity using standard dimensionality reduction and classification tools~\cite{Park2015-uj,Gupta2015-ap}, and
 compared this to reference and random performance (Figure~\ref{fig:bmi}).
 
 The analysis was perturbed through distinct samplings of the dataset across both pipelines and perturbation methods.
@@ -313,11 +317,11 @@ The accuracy and F1 score for the perturbed models varied from $0.520$~–~$0.71
 ranging from at or below random performance to outperforming performance on the reference dataset. This large
 variability illustrates a previously uncharacterized margin of uncertainty in the modelling of this relationship, and
 limits confidence in reported accuracy scores on singly processed datasets. The portion of explained variance in these
-samples ranged from $88.6\%$~-–~$97.8\%$, similar to the reference, suggesting that the range in performance was not
-due to a gain or loss of meaningful signal, but rather the reduction of bias towards specific outcome. Importantly,
-this finding does not suggest that modelling brain-phenotype relationships is not possible, but rather it sheds light
-on impactful uncertainty that must be accounted for in this process, and supports the use of ensemble modeling
-techniques.
+samples ranged from $88.6\%$~-–~$97.8\%$, similar to the reference \new{of $90.3\%$}, suggesting that the range in
+performance was not due to a gain or loss of meaningful signal, but rather the reduction of bias towards specific
+outcome. Importantly, this finding does not suggest that modelling brain-phenotype relationships is not possible, but
+rather it sheds light on impactful uncertainty that must be accounted for in this process, and supports the use of
+ensemble modeling techniques.
 
 \new{One distinction between the results presented here and the previous is that while networks derived from dense
 perturbations had been shown to exhibit less dramatic instabilities in general, the results here show similar
@@ -417,8 +421,9 @@ acquisition of this dataset can be found in the NKI-RS data release~\cite{Nooner
 
 In addition to the $100$ sessions mentioned above, $25$ individuals had a second session to be used in a test-retest
 analysis. Two additional copies of the data for these individuals were generated, including only the odd or even
-diffusion directions ($64$ + $9$ B0 volumes = $73$ in either case). This allowed for an extra level of stability
-evaluation to be performed between the levels of MCA and session-level variation.
+diffusion directions ($64$ + $9$ B0 volumes = $73$ in either case) \new{such that the acquired data was evenly
+represented across both portions}. This allowed for an extra level of stability evaluation to be performed between the
+levels of MCA and session-level variation.
 
 In total, the dataset is composed of $100$ downsampled sessions of data originating from $50$ acquisitions
 and $25$ individuals for in depth stability analysis, and an additional $100$ sessions of full-resolution data from
