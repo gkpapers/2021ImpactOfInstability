@@ -150,7 +150,7 @@ the roles \new{perturbation} analyses may play in brain imaging research \new{an
 \includegraphics[width=0.98\linewidth]{figures/fig1_absolute_differences.pdf}
 \caption{Exploration of perturbation-induced deviations from reference connectomes.
 (\textbf{A}) The absolute deviations, in the form of normalized percent deviation from reference, shown as the
-across MCA series relative to Across Subsample, Across Session, and Aross Subject variations.
+across MCA series relative to Across Subsample, Across Session, and Across Subject variations.
 (\textbf{B}) The number of significant decimal digits in each set of connectomes as obtained after evaluating the
 effect of perturbations. In the case of 16, values can be fully relied upon, whereas in the case of 1 only the first
 digit of a value can be trusted. \new{Dense} and \new{sparse} perturbations are shown on the left and right, respectively.}
@@ -166,9 +166,11 @@ MCA, replicating computational noise either \new{sparsely} or \new{densely} thro
 \new{In the sparse case, a small subset of the libraries were instrumented with MCA, allowing for the evaluation of the
 cascading effects of numerical instabilities that may arise. In the dense case, operations are more uniformly perturbed
 and thus the law of large numbers suggests that perturbations will quickly offset one-another and only dramatic local
-instabilities will have propagating effects. Instrumenting pipelines with MCA increases their computation time, in this
-case by multiplication factors of $1.2 \times$ and $7 \times$ for the sparse and dense settings, respectively~\cite{Kiar2020-lb}. The
-results obtained were compared to unperturbed (e.g. reference) connectomes in both cases.}
+instabilities will have propagating effects. Importantly, the perturbations resulting from the sparse setting
+represent a strict subset of the possible outcomes of the dense implementation. The random perturbations are statistically independent from one another
+across both settings and simulations. Instrumenting pipelines with MCA increases their computation time, in this
+case by multiplication factors of $1.2 \times$ and $7 \times$ for the sparse and dense settings, respectively~\cite{Kiar2020-lb}.
+The results obtained were compared to unperturbed (e.g. reference) connectomes in both cases.}
 The \new{connectomes} were sampled \new{$10$} times per \new{sample} and once without perturbations, resulting in a total of
 $4,200$ connectomes. \new{Two versions of the unperturbed connectomes were generated and compared such that the absence
 of variability aside from that induced via MCA could be confirmed}.
@@ -218,9 +220,12 @@ compared to distinct samples in the dataset (Table~\ref{tab:discrim}, with addit
 \sref{supsec:discrimfull}). The ability to \new{discriminate} connectomes across subjects (Hypothesis~1) is an essential
 prerequisite for the application of brain imaging towards identifying individual differences~\cite{Dubois2016-yr}. In
 testing hypothesis~1, we observe that the dataset is \new{discriminable} with a score of $0.64$ and $0.65$ ($p < 0.001$; optimal
-score: $1.0$; chance: $0.04$) \new{for the Deterministic and Probabilistic pipelines, respectively, in the absence of MCA}. However, we can see that inducing instabilities through MCA
-improves the \new{discriminability} of the dataset to over $0.75$ in each case ($p < 0.001$ for all), significantly higher than
-without instrumentation ($p < 0.005$ for all). This result impactfully suggests the utility of perturbation methods for
+score: $1.0$; chance: $0.04$) \new{for the Deterministic and Probabilistic pipelines, respectively, in the absence of MCA}.
+However, we can see that inducing instabilities through MCA improves the \new{discriminability} of the dataset to over
+$0.75$ in each case ($p < 0.001$ for all), significantly higher than without instrumentation ($p < 0.005$ for all).
+\new{The definition of the discriminability statistic is such that if all samples derived from the a given session were
+near replicates of one another the score would be unchanging despite the increased sample size~\cite{bridgeford2020elim}}.
+Th\new{e} result\new{ing difference in discriminability} impactfully suggests the utility of perturbation methods for
 synthesizing robust and reliable individual estimates of connectivity, serving as a cost effective and context-agnostic
 method for dataset augmentation.
 
@@ -230,15 +235,15 @@ session, rather than subject, and the ability to distinguish one session from an
 and aggregated. Both the unperturbed and pipeline perturbation settings perfectly preserved differences between
 cross-sectional sessions with a score of $1.0$ ($p < 0.005$; optimal score: $0.5$; chance: $0.5$), indicating a
 dominant session-dependent signal for all individuals despite no intended biological differences. However, while still
-significant relative to chance (score: $0.85$ and $0.88$; $p < 0.005$ for both), input perturbations lead to
-significantly lower separability of the dataset ($p < 0.005$ for all). This reduction of the difference between
-sessions of data within individuals suggests that increased variance caused by input perturbations reduces the impact
-of non-biological acquisition-dependent bias inherent in the brain graphs.
+significant relative to chance (score: $0.85$ and $0.88$; $p < 0.005$ for both), \new{sparse} perturbations lead to
+significantly lower discriminability of the dataset ($p < 0.005$ for all). This reduction of the difference between
+sessions suggests that \new{the added} variance \new{due to} perturbations reduces the \new{relative} impact of non-biological
+acquisition-dependent bias inherent in the brain graphs.
 
-Though the previous sets of experiments inextricably evaluate the interaction between the dataset and tool, the use of
-subsampling allowed for characterizing the separability of networks sampled from within a single acquisition
-(Hypothesis~3). While this experiment could not be evaluated using reference executions, the executions performed
-with pipeline perturbations showed near perfect separation between subsamples, with scores of $0.99$ and $1.0$
+Though the previous sets of experiments inextricably evaluate the interaction between \new{data acquisition} and
+\new{the pipelines}, the use of subsampling allowed for characterizing the discriminability of networks sampled from within
+a single acquisition (Hypothesis~3). While this experiment could not be evaluated using reference executions, the executions performed
+with pipeline perturbations showed near perfect discrimination between subsamples, with scores of $0.99$ and $1.0$
 ($p < 0.005$; optimal: $0.5$; chance: $0.5$). Given that there is no variability in data acquisition or preprocessing
 that contributes to this reliable identification of scans, the separability observed in this experiment may only be due
 to instability or bias inherent to the pipelines. The high variability introduced through input perturbations
@@ -313,6 +318,14 @@ due to a gain or loss of meaningful signal, but rather the reduction of bias tow
 this finding does not suggest that modelling brain-phenotype relationships is not possible, but rather it sheds light
 on impactful uncertainty that must be accounted for in this process, and supports the use of ensemble modeling
 techniques.
+
+\new{One distinction between the results presented here and the previous is that while networks derived from dense
+perturbations had been shown to exhibit less dramatic instabilities in general, the results here show similar
+variability in classification performance across the two methods. This consistency suggests that the desired method of
+pipeline instrumentation may vary across experiments. While sparse perturbations result in considerably more
+variability in networks directly, the two techniques capture similar variability when relating networks to this
+phenotypic variable. Given the dramatic reduction in computational overhead, a sparse instrumentation may be preferred
+when processing datasets for eventual application in modelling brain-phenotype relationships.}
 
 \subsection*{Discussion}
 
@@ -473,7 +486,9 @@ motivation for the number of simulations can be found in~\cite{Sohier2018-ts}.
 The magnitude and importance of instabilities in pipelines can be considered at a number of analytical levels, namely:
 the induced variability of derivatives directly, the resulting downstream impact on summary statistics or features, or
 the ultimate change in analyses or findings. We explore the nature and severity of instabilities through each of these
-lenses. Unless otherwise stated, all p-values were computed using Wilcoxon signed-rank tests.
+lenses. Unless otherwise stated, all p-values were computed using Wilcoxon signed-rank tests. \new{To ensure
+avoid biasing these statistics in this unique repeated-measures context, tests were performed across sets of independent
+obversations and then the results were aggregated in all cases.}
 
 \subsubsection*{Direct Evaluation of the Graphs}
 
@@ -532,17 +547,20 @@ it was possible the hypotheses were tested using the reference executions alongs
 \begin{enumerate}[label=$H_{A\arabic*}$:]
 \item \underline{Individuals are distinct from one another}\\
 Class definition: \textit{Subject ID}\\
-Comparisons: \textit{Session (1 subsample)}, \textit{Subsample (1 session)}, \textit{MCA (1 subsample, 1 session)}
+Comparisons: \textbf{\textit{Session (1 subsample)}}, \textit{Subsample (1 session)},
+\textit{MCA (1 subsample, 1 session)}
 \item \underline{Sessions within an individual are distinct}\\
 Class definition: \textit{Session ID $\vert$ Subject ID}\\
-Comparisons: \textit{Subsample}, \textit{MCA (1 subsample)}
+Comparisons: \textbf{\textit{Subsample}}, \textit{MCA (1 subsample)}
 \item \underline{Subsamples are distinct}\\
 Class definition: \textit{Subsample $\vert$ Subject ID, Session ID}\\
-Comparisons: \textit{MCA}
+Comparisons: \textbf{\textit{MCA}}
 \end{enumerate}
 
 As a result, we tested $3$ hypotheses across $6$ MCA experiments and $3$ reference experiments on $2$ pipelines and $2$
-perturbation modes, resulting in a total of $30$ distinct tests.
+perturbation modes, resulting in a total of $30$ distinct tests. \new{While results from all tests can be found
+within~\sref{supsec:discrimfull}, only the bolded comparisons in the list above have been presented in the main body of
+this article.}
 
 \subsubsection*{Evaluating Graph-Theoretical Metrics}
 While connectomes may be used directly for some analyses, it is common practice to summarize them with structural
