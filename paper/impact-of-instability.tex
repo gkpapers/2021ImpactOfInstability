@@ -61,7 +61,7 @@
 \JournalInfo{$ $ } % Journal information
 \Archive{Pre-print} % Additional notes (e.g. copyright, DOI, review/research article)
 
-\PaperTitle{\new{Induced} Numerical Instabilities in Analytical Pipelines Lead to \new{Impactful} Variability in Brain Networks} % Article title
+\PaperTitle{Numerical \new{Uncertainty} in Analytical Pipelines Lead to \new{Impactful} Variability in Brain Networks} % Article title
 
 \Authors{Gregory Kiar\textsuperscript{1}, Yohan Chatelain\textsuperscript{2}, Pablo de Oliveira Castro\textsuperscript{3},
 Eric Petit\textsuperscript{4}, Ariel Rokem\textsuperscript{5}, Gaël Varoquaux\textsuperscript{6},
@@ -141,8 +141,8 @@ datasets are manipulated or pathologies may be simulated, and allows for the eva
 settings.} We explored the impact of \new{numerical} perturbations through the direct comparision of structural connectomes,
 the consistency of their features, and their eventual application in a neuroscience study. \new{We also characterized the}
 consequences \new{of instability in these pipelines on the reliability of derived datasets,} and \new{discuss how the induced
-variability may be harnessed to increase the discriminability of datasets}. \new{Finally, we} make recommendations for
-the roles \new{perturbation} analyses may play in brain imaging research \new{and beyond}.
+variability may be harnessed to increase the discriminability of datasets, in an approach akin to ensemble learning}.
+\new{Finally, we} make recommendations for the roles \new{perturbation} analyses may play in brain imaging research \new{and beyond}.
 
 %------------------------------------------------
 \subsection*{Graphs Vary Widely With Perturbations}
@@ -193,14 +193,15 @@ was more stable in the face of \new{dense} perturbations whereas the determinist
 correlations \new{between} networks can be found in \sref{supsec:correlation}.
 
 The number of significant digits per edge across connectomes (Figure~\ref{fig:absolute}B) similarly decreases
-\new{alongside the decreasing similarity between comparison groups}. While the cross-MCA comparison of connectomes generated with \new{dense} perturbations show nearly perfect
+\new{alongside the decreasing similarity between comparison groups}. While the cross-MCA comparison of connectomes
+generated with \new{dense} perturbations show nearly perfect
 precision for many edges (approaching the maximum of $15.7$ digits for $64$-bit data), this evaluation uniquely shows
 considerable drop off in performance \new{when comparing networks across} subsamplings (average of $< 4$ digits). In addition, \new{sparsely
 perturbed connectomes} show no more than an average of $3$ significant digits across all \new{comparison} groups, demonstrating a significant
 limitation in the reliability \new{of} independent edge weights. \new{The number of significant digits} across individuals did not exceed a single digit
 per edge in any case, indicating that only the order \new{of} magnitude of edges in naively computed groupwise average connectomes can
 be trusted. The combination of these results with those presented in Figure~\ref{fig:absolute}A suggests that while
-specific edge weights are largely affected by instabilities, macro-scale network \new{organization} is stable.
+specific edge weights are largely affected by instabilities, macro-scale network \new{structure} is stable.
 
 \subsection*{\new{Perturbations Increase Biologically-Driven Discriminability}}
 \begin{table*}[ht]\centering
@@ -224,9 +225,10 @@ testing hypothesis~1, we observe that the dataset is \new{discriminable} with a 
 score: $1.0$; chance: $0.04$) \new{for the Deterministic and Probabilistic pipelines, respectively, in the absence of MCA}.
 However, we can see that inducing instabilities through MCA improves the \new{discriminability} of the dataset to over
 $0.75$ in each case ($p < 0.001$ for all), significantly higher than without instrumentation ($p < 0.005$ for all).
-\new{The definition of the discriminability statistic is such that if all samples derived from the a given session were
-near replicates of one another the score would be unchanging despite the increased sample size~\cite{bridgeford2020elim}}.
-Th\new{e} result\new{ing increase in discriminability} therefore suggests the utility of perturbation methods for
+\new{Discriminability is defined such that scores are unaffected by the number of observations per
+sample~\cite{bridgeford2020elim}. The effect that MCA perturbations have on this measure therefore demonstrates that
+the cross-session variance decreases relative to cross-subject variance as a result of MCA}.
+This result\new{ing increase in discriminability} suggests the utility of perturbation methods for
 synthesizing robust and reliable individual estimates of connectivity, serving as a cost effective and context-agnostic
 method for dataset augmentation.
 
@@ -261,7 +263,7 @@ favoured by a model. In particular, this highlights that numerical perturbations
 stability of pipelines, but that the induced variance may be leveraged for the interpretation as a robust distribution
 of possible results.
 
-\subsection*{Distributions of Graph Statistics \new{Were} Reliable, But Individual Statistics \new{Were} Not}
+\subsection*{Distributions of Graph Statistics Are Reliable, But Individual Statistics Are Not}
 \begin{figure*}[bht!]\centering
 \includegraphics[width=\linewidth]{figures/fig2_multivariate_differences.pdf}
 \caption{Distribution and stability assessment of multivariate graph statistics. (\textbf{A}, \textbf{B}) The
@@ -389,7 +391,8 @@ Other work has shown that linear registration, a core piece of many elements of 
 correction and alignment, is sensitive to minor perturbations~\cite{Glatard2015-vc}. It is likely that the
 instabilities across the entire processing workflow would be compounded with one another, resulting in even greater
 variability. While the analyses performed in this paper evaluated a single dataset and set of pipelines, extending this
-work to other modalities and analyses is of interest for future projects.
+work to other modalities and analyses, \new{alongside the detection of local sources of instability within pipelines},
+is of interest for future projects.
 
 This paper does not explore methodological flexibility or compare this to numerical instability. Recently, the nearly
 boundless space of analysis pipelines and their impact on outcomes in brain imaging has been clearly
@@ -497,9 +500,9 @@ measures dataset}. A detailed motivation for the number of simulations can be fo
 The magnitude and importance of instabilities in pipelines can be considered at a number of analytical levels, namely:
 the induced variability of derivatives directly, the resulting downstream impact on summary statistics or features, or
 the ultimate change in analyses or findings. We explore the nature and severity of instabilities through each of these
-lenses. Unless otherwise stated, all p-values were computed using Wilcoxon signed-rank tests. \new{To ensure
-avoid biasing these statistics in this unique repeated-measures context, tests were performed across sets of independent
-obversations and then the results were aggregated in all cases.}
+lenses. Unless otherwise stated, all p-values were computed using Wilcoxon signed-rank tests. \new{To avoid biasing
+these statistics in this unique repeated-measures context, tests were performed across sets of independent
+observations and then the results were aggregated in all cases.}
 
 \subsubsection*{Direct Evaluation of the Graphs}
 
