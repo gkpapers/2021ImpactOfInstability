@@ -557,9 +557,10 @@ reproducibility, and is discussed in detail in~\cite{bridgeford2020elim}. This d
 deviations across arbitrarily defined classes that in practice can be any of those listed above. We combine this
 statistic with permutation testing to test hypotheses on whether differences between classes are statistically
 significant in each of these settings. \new{This statistic is similar to $ICC$~\cite{Bartko1966-tl} in a two-measurement
-setting, however, given the dependence on a rank distribution from all measurements, discriminability scores are not
-artificially inflated by the addition of more samples which are highly similar to the originals, making it appropriate
-in this context.}
+setting, however, given the dependence on a rank distribution from all measurements, discriminability scores do not
+become meaningless by the addition of more samples which are highly similar to the originals, whereas ICC scores would
+much more rapidly trend towards 1, making discriminability appropriate in this context.} The scaling properties of 
+discriminability are described more fully in~\sref{supsec:discrimfull}.
 
 With this in mind, three hypotheses were defined. For each setting, we state the alternate hypotheses, the variable(s)
 which were used to determine class membership, and the remaining variables which may be sampled when obtaining multiple
