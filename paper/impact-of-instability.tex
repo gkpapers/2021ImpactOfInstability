@@ -100,7 +100,7 @@ organization, it also leads to an increase in the reliability of datasets.}
 
 %----------------------------------------------------------------------------------------
 
-\newcommand{\new}[1]{{\color{blue} #1}}
+\newcommand{\new}[1]{{\color{black} #1}}
 
 \begin{document}
 
@@ -172,8 +172,8 @@ represent a strict subset of the possible outcomes of the dense implementation. 
 across both settings and simulations. Instrumenting pipelines with MCA increases their computation time, in this
 case by multiplication factors of $1.2 \times$ and $7 \times$ for the sparse and dense settings, respectively~\cite{Kiar2020-lb}.
 The results obtained were compared to unperturbed (e.g. reference) connectomes in both cases.}
-The \new{connectomes} were sampled \new{$10$} times per \new{sample} and once without perturbations, resulting in a total of
-$4,200$ connectomes. \new{Two versions of the unperturbed connectomes were generated and compared such that the absence
+The \new{connectomes} were sampled \new{$20$} times per \new{sample} and once without perturbations, resulting in a total of
+$8,400$ connectomes. \new{Two versions of the unperturbed connectomes were generated and compared such that the absence
 of variability aside from that induced via MCA could be confirmed}.
 
 The stability of connectomes was evaluated through the \new{normalized percent} deviation from reference~\cite{Kiar2020-lb} and the number
@@ -203,7 +203,7 @@ per edge in any case, indicating that only the order \new{of} magnitude of edges
 be trusted. The combination of these results with those presented in Figure~\ref{fig:absolute}A suggests that while
 specific edge weights are largely affected by instabilities, macro-scale network \new{structure} is stable.
 
-\subsection*{\new{Perturbations Increase Biologically-Driven Discriminability}}
+\subsection*{\new{Perturbations Reduce Off-Target Discriminability}}
 \begin{table*}[ht]\centering
 \caption{The impact of instabilities as evaluated through the \new{discriminability} of the dataset based on individual (or
 subject) differences, session, and subsample. The performance is reported as mean discriminability. While a perfectly
@@ -217,46 +217,44 @@ $p < 0.005$.}
 \end{table*}
 
 We assessed the reproducibility of the dataset through mimicking and extending a typical test-retest
-experiment~\cite{bridgeford2020elim} in which the similarity of samples across \new{sessions} were
+experiment~\cite{bridgeford2020elim} in which the similarity of samples across sessions were
 compared to distinct samples in the dataset (Table~\ref{tab:discrim}, with additional experiments and explanation in
-\sref{supsec:discrimfull}). The ability to \new{discriminate} connectomes across subjects (Hypothesis~1) is an essential
+\sref{supsec:discrimfull}). The ability to discriminate connectomes across subjects (Hypothesis~1) is an essential
 prerequisite for the application of brain imaging towards identifying individual differences~\cite{Dubois2016-yr}. In
-testing hypothesis~1, we observe that the dataset is \new{discriminable} with a score of $0.64$ and $0.65$ ($p < 0.001$; optimal
-score: $1.0$; chance: $0.04$) \new{for the Deterministic and Probabilistic pipelines, respectively, in the absence of MCA}.
-However, we can see that inducing instabilities through MCA improves the \new{discriminability} of the dataset to over
-$0.75$ in each case ($p < 0.001$ for all), significantly higher than without instrumentation ($p < 0.005$ for all).
-\new{Discriminability is defined such that scores are unaffected by the number of observations per
-sample~\cite{bridgeford2020elim}. The effect that MCA perturbations have on this measure therefore demonstrates that
-the cross-session variance decreases relative to cross-subject variance as a result of MCA}.
-This result\new{ing increase in discriminability} suggests the utility of perturbation methods for
-synthesizing robust and reliable individual estimates of connectivity, serving as a cost effective and context-agnostic
-method for dataset augmentation.
+testing hypothesis~1, we observe that the dataset is discriminable with a scaled score of $0.82$ ($p < 0.001$; optimal
+score: $1.0$; chance: $0.04$) for both pipelines in the absence of MCA. We can see that inducing instabilities
+through MCA preserves the discriminability of the dataset over $0.75$ in each case ($p < 0.001$ for all),
+significantly higher than the un-scaled score without instrumentation ($p < 0.005$ for all).
+This lack of significant decrease in discriminability across MCA perturbations suggests its utility for capturing
+variance within datasets without compromising the robustness and reliability of the dataset as
+a whole, and possibly suggesting this technique as a cost effective and context-agnostic method for dataset
+augmentation.
 
-While the \new{discriminability} of individuals is essential for the identification of \new{individual} brain networks,
+While the discriminability of individuals is essential for the identification of \new{individual} brain networks,
 it is similarly reliant on
-network similarity \new{– or lack of discriminability –} across equivalent acquisitions (Hypothesis~2). In this case,
+network similarity – or lack of discriminability – across equivalent acquisitions (Hypothesis~2). In this case,
 connectomes were grouped based upon session, rather than subject, and the ability to distinguish one session from
-another \new{based on subsamples} was computed within-individual and aggregated. Both the unperturbed and \new{dense}
+another based on subsamples was computed within-individual and aggregated. Both the unperturbed and dense
 perturbation settings perfectly preserved differences between sessions with a score of $1.0$ ($p < 0.005$; optimal
 score: $0.5$; chance: $0.5$), indicating a dominant session-dependent signal for all individuals despite no intended
 biological differences. However, while still significant relative to chance (score: $0.85$ and $0.88$; $p < 0.005$ for
-both), \new{sparse} perturbations lead to significantly lower discriminability of the dataset ($p < 0.005$ for all).
-This reduction of the difference between sessions suggests that \new{the added} variance \new{due to} perturbations
-reduces the \new{relative} impact of non-biological acquisition-dependent bias inherent in the \new{networks}.
+both), sparse perturbations lead to significantly lower discriminability of the dataset ($p < 0.005$ for all).
+This reduction of the difference between sessions suggests that the added variance due to perturbations
+reduces the relative impact of non-biological acquisition-dependent bias inherent in the networks.
 
-Though the previous sets of experiments inextricably evaluate the interaction between \new{data acquisition} and tool,
+Though the previous sets of experiments inextricably evaluate the interaction between data acquisition and tool,
 the use of subsampling allowed for characterizing the discriminability of networks sampled from within a single
-acquisition (Hypothesis~3). While this experiment could not be evaluated using reference executions, the \new{networks
-generated with dense} perturbations showed near perfect discrimination between subsamples, with scores of $0.99$ and
-$1.0$ ($p < 0.005$; optimal: $0.5$; chance: $0.5$). Given that there is no variability in data acquisition\new{, due to
-undesired effects such as participant motion,} or preprocessing, the \new{ability to discriminate between equivalent
-subsamples} in this experiment may only be due to instability or bias inherent to the pipelines. The high variability
-introduced through \new{sparse} perturbations considerably lowered the \new{discriminability} towards chance (score:
+acquisition (Hypothesis~3). While this experiment could not be evaluated using reference executions, the networks
+generated with dense perturbations showed near perfect discrimination between subsamples, with scores of $0.99$ and
+$1.0$ ($p < 0.005$; optimal: $0.5$; chance: $0.5$). Given that there is no variability in data acquisition, due to
+undesired effects such as participant motion, or preprocessing, the ability to discriminate between equivalent
+subsamples in this experiment may only be due to instability or bias inherent to the pipelines. The high variability
+introduced through sparse perturbations considerably lowered the discriminability towards chance (score:
 $0.71$ and $0.61$; $p < 0.005$ for all), further supporting this as an effective method for obtaining lower-bias
 estimates of individual connectivity.
 
-Across all cases, the induced perturbations \new{led to an increased ability to discriminate networks on the basis} of
-meaningful biological signal alongside a reduction \new{in discriminability due to} of off-target signal. This result
+Across all cases, the induced perturbations maintained the ability to discriminate networks on the basis of
+meaningful biological signal alongside a reduction in discriminability due to of off-target signal. This result
 appears strikingly like a manifestation of the well-known bias-variance
 tradeoff~\cite{geman1992neural} in machine learning, a concept which observes a decrease in bias as variance is
 favoured by a model. In particular, this highlights that numerical perturbations can be used to not only evaluate the
@@ -278,7 +276,7 @@ Exploring the stability of topological features of connectomes is relevant for t
 features are often more suitable than full connectomes for many analytical methods in practice~\cite{Rubinov2010-fh}.
 A separate subset of the NKIRS dataset was randomly selected to contain a single non-subsampled session for $100$
 individuals \new{($100 \times 1 \times 1$) using the pipelines and instrumentation methods to generate connectomes as
-above. Connectomes were generated $20$ times each, resulting in a dataset which also contained $4,200$ connectomes with
+above. Connectomes were generated $20$ times each, resulting in a dataset which also contained $8,400$ connectomes with
 the MCA simulations serving as the only source of repeated measurements.}
 
 The stability of several commonly-used multivariate graph features~\cite{Betzel2018-eo} \new{were} explored \new{and
@@ -339,7 +337,7 @@ when processing datasets for eventual application in modelling brain-phenotype r
 The perturbation of structural connectome estimation pipelines with small amounts of noise, on the order of machine
 error, led to considerable variability in derived brain graphs. Across all analyses the stability of results ranged
 from nearly perfectly trustworthy (i.e. no variation) to completely unreliable (i.e. containing no trustworthy
-information). Given that the magnitude of introduced numerical noise is to be expected \new{in computational workflows}, this
+information). Given that the magnitude of introduced numerical noise is to be expected in computational workflows, this
 finding has potentially significant implications for inferences in brain imaging as it is currently performed. In
 particular, this bounds the success of studying individual differences, a central objective in brain
 imaging~\cite{Dubois2016-yr}, given that the quality of relationships between phenotypic data and brain networks will
@@ -372,16 +370,16 @@ ultimately more useful.
 \paragraph{Cost-Effective Data Augmentation}
 The evaluation of reliability in brain imaging has historically relied upon the expensive collection of repeated
 measurements choreographed by massive cross-institutional consortia~\cite{van2013wu,zuo2014open}. The finding that
-perturbing experiments using MCA both increased the \new{discriminability} of the dataset \new{due to biological signal}
-and decreased \new{the discriminability due to} off-target differences across acquisitions \new{and subsamples} opens
+perturbing experiments using MCA both preserved the discriminability of the dataset due to biological signal
+and decreased the discriminability due to off-target differences across acquisitions and subsamples opens
 the door for a promising paradigm shift. Given that MCA is data-agnostic, this technique
 could be used effectively in conjunction with, or in lieu of, realistic noise models to augment existing datasets.
 While this of course would not replace the need for repeated measurements when exploring the effect of data collection
 paradigm or study longitudinal progressions of development or disease, it could be used in conjunction with these
-efforts to increase the reliability of each distinct sample within a dataset. In contexts where repeated measurements
-are \new{typically} collected to increase the fidelity of the dataset, MCA could potentially \new{serve as an alternative
-solution to} to increase the reliability of the dataset \new{and capture more biological variability, with the added
-result being the} savings \new{of} millions of dollars on data collection. 
+efforts to decrease the bias of each distinct sample within a dataset. In contexts where repeated measurements
+are typically collected to increase the fidelity of the dataset, MCA could potentially serve as an alternative
+solution to capture more biological variability, with the added benefit being the savings of millions of dollars on
+data collection. 
 
 \paragraph{Shortcomings and Future Questions}
 Given the complexity of recompiling complex software libraries, pre-processing was not perturbed in these experiments
@@ -669,11 +667,14 @@ with Health Canada, for the Canadian Open Neuroscience Platform initiative.
 \clearpage
 \section{Graph Correlation}
 \label{supsec:correlation}
-The correlations between observed graphs (Figure~\ref{fig:correlation}) across each grouping follow the same trend to
-as percent deviation, as shown in Figure~\ref{fig:absolute}. However, notably different from percent deviation, there
-is no significant difference in the correlations between \new{dense} or \new{sparse} instrumentations. By this measure, the
-probabilistic pipeline is more stable in all cross-MCA and cross-directions except for the combination of \new{sparse}
-perturbation and cross-MCA ($p < 0.0001$ for all; exploratory).
+The following presents a quantification of deviations of generated connectomes from the reference execution, similar
+to shown in Figure~\ref{fig:absolute}. However, in this case, the ``percent deviation'' measure was replaced with the
+Pearson correlation coefficient. The correlations between observed graphs (Figure~\ref{fig:correlation}) across each
+grouping follow the same trend to as percent deviation, as shown in Figure~\ref{fig:absolute}. However, notably
+different from percent deviation, there is no significant difference in the correlations between \new{dense} or
+\new{sparse} instrumentations. By this measure, the probabilistic pipeline is more stable in all cross-MCA and
+cross-directions except for the combination of \new{sparse} perturbation and cross-MCA ($p < 0.0001$ for all;
+exploratory).
 
 The marked lack in drop-off of performance across these settings, inconsistent with the measures show in
 Figure~\ref{fig:absolute} is \new{likely due} to the nature of the measure and the \new{structure of graphs being compared}.
@@ -716,6 +717,23 @@ higher discriminability scores.
 Similar to subject variation, the session variation was also modelled across either both or a single subsample \new{in
 experiments $2.4$ and $2.5$}. In both of these cases the performance was similar, and the finding that \new{sparse}
 perturbations reduced the off-target signal was consistent.
+
+\begin{figure}[ht]\centering
+\includegraphics[width=0.8\linewidth]{figures/figS2_discrim_scaling.pdf}
+\caption{Scaling behaviour of the discriminability statistic with data duplication.}
+\label{fig:discrim_scaling}
+\end{figure}
+
+\subsection{Scaling of discriminability with N}
+When samples were added to the dataset across perturbed executions, the discriminability statistic inflated to a
+plateau even when no information was added (e.g. the dataset was replicated). This effect is demonstrated for the
+reference executions and is shown in Figure~\ref{fig:discrim_scaling}. As we can see, the reference discriminability
+scores without data duplication (unscaled) were $0.64$ and $0.65$ for the deterministic and probabilistic pipelines,
+respectively. After duplicating the dataset $20$ times, matching the size of the $20$-sample perturbed dataset, we
+can see that this (scaled) score plateaus at $0.82$ for both pipelines. For consistency, in the main body of the text
+the reference execution performance was communicated as the scaled quantity.
+
+
 
 \clearpage
 \section{Univariate Graph Statistics}

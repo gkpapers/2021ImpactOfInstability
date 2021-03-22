@@ -129,6 +129,28 @@ def hyp1(df_, instrum, ssets, iters, workers):
 
     return stat_list
 
+def hyp1_extended(df_, instrum, ssets, iters, workers):
+    stat_list = []
+    idvar = "subject"
+    ## Hypothesis 1: cross-subject
+    hyp = 1
+
+    ### Tests 1 & 2
+    for dir_ in df_['directions'].unique():
+        df__ = df_[df_['directions'] == dir_]
+        
+        ### Test 2: Multi-session, 1 dir, reference execution
+        test='2e'
+        for replicates in range(20):
+            df__ = df__[df__['simulation'] == 'ref']
+            df__e = pd.concat([df__]*(replicates+1), ignore_index=True)
+            stat_list += pipeline_discrims(df__e, idvar=idvar, hyp=hyp, test=test,
+                                           instrum=instrum, reps=iters,
+                                           workers=workers)
+            stat_list[-1]['instrumentation'] = replicates
+        del df__
+    return stat_list
+
 
 def hyp2(df, instrum, ssets, iters, workers):
     stat_list = []
@@ -196,21 +218,32 @@ def hyp3(df, instrum, ssets, iters, workers):
 def driver(df_fs, df_pyonly, hyp=-1, workers=4, iters=100, seed=42):
     stat_list = []
 
+    # Convert to int for all hypotheses other than 1e
+    try:
+        ha = int(hyp)
+    except ValueError:
+        ha = hyp
+
+
     for df_ in [df_fs, df_pyonly]:
         instrum = df_['Instrumentation'].values[0]
         ssets = [[(s, df_[df_['subject']==s]['session'].unique()[i])
                   for s in df_['subject'].unique()]
                  for i in range(2)]
 
-        if hyp == -1 or hyp == 1:
+        if ha == '1e':
+            np.random.seed(seed)
+            stat_list += hyp1_extended(df_fs, 'ref', ssets, iters, workers)
+            break
+        
+        if ha == -1 or ha == 1:
             np.random.seed(seed)
             stat_list += hyp1(df_, instrum, ssets, iters, workers)
-
-        if hyp == -1 or hyp == 2:
+        if ha == -1 or ha == 2:
             np.random.seed(seed)
             stat_list += hyp2(df_, instrum, ssets, iters, workers)
 
-        if hyp == -1 or hyp == 3:
+        if ha == -1 or ha == 3:
             np.random.seed(seed)
             stat_list += hyp3(df_, instrum, ssets, iters, workers)
 
@@ -225,8 +258,8 @@ def main():
     parser.add_argument("--workers", "-n", default=4)
     parser.add_argument("--seed", "-s", type=int, default=42)
     parser.add_argument("--iterations", "-r", type=int, default=100)
-    parser.add_argument("--hypothesis", "-e", type=int, default=-1,
-                        choices=[-1,1,2,3])
+    parser.add_argument("--hypothesis", "-e", type=str, default=-1,
+                        choices=['-1','1','1e','2','3'])
     # Hypotheses:
     #  1. Cross-subject variation
     #  2. Cross-session variation
