@@ -203,13 +203,13 @@ per edge in any case, indicating that only the order \new{of} magnitude of edges
 be trusted. The combination of these results with those presented in Figure~\ref{fig:absolute}A suggests that while
 specific edge weights are largely affected by instabilities, macro-scale network \new{structure} is stable.
 
-\subsection*{\new{Perturbations Reduce Off-Target Discriminability}}
+\subsection*{Sparse Perturbations Reduce Off-Target Signal}
 \begin{table*}[ht]\centering
-\caption{The impact of instabilities as evaluated through the \new{discriminability} of the dataset based on individual (or
+\caption{The impact of instabilities as evaluated through the discriminability of the dataset based on individual (or
 subject) differences, session, and subsample. The performance is reported as mean discriminability. While a perfectly
-\new{discriminable} dataset would be represented by a score of $1.0$, the chance performance, indicating minimal \new{discriminability}, is
+discriminable dataset would be represented by a score of $1.0$, the chance performance, indicating minimal discriminability, is
 $1 /$the number of classes. $H_3$ could not be tested using the reference executions due to too few possible
-comparisons. The alternative hypothesis, indicating significant \new{discrimination}, was accepted for all experiments, with
+comparisons. The alternative hypothesis, indicating significant discrimination, was accepted for all experiments, with
 $p < 0.005$.}
 \vspace{5pt}
 \input{figures/tab1_discrim.tex}
@@ -218,23 +218,21 @@ $p < 0.005$.}
 
 We assessed the reproducibility of the dataset through mimicking and extending a typical test-retest
 experiment~\cite{bridgeford2020elim} in which the similarity of samples across sessions were
-compared to distinct samples in the dataset (Table~\ref{tab:discrim}, with additional experiments and explanation in
-\sref{supsec:discrimfull}). The ability to discriminate connectomes across subjects (Hypothesis~1) is an essential
-prerequisite for the application of brain imaging towards identifying individual differences~\cite{Dubois2016-yr}. In
-testing hypothesis~1, we observe that the dataset is discriminable with a scaled score of $0.82$ ($p < 0.001$; optimal
-score: $1.0$; chance: $0.04$) for both pipelines in the absence of MCA. We can see that inducing instabilities
-through MCA preserves the discriminability of the dataset over $0.75$ in each case ($p < 0.001$ for all),
-significantly higher than the un-scaled score without instrumentation ($p < 0.005$ for all).
+compared to distinct samples in the dataset (Table~\ref{tab:discrim}, with additional experiments and explanation of
+the measure and its scaling in \sref{supsec:discrimfull}). The ability to discriminate connectomes across subjects
+(Hypothesis~1) is an essential prerequisite for the application of brain imaging towards identifying individual
+differences~\cite{Dubois2016-yr}. In testing hypothesis~1, we observe that the dataset is discriminable with a scaled
+score of $0.82$ ($p < 0.001$; optimal score: $1.0$; chance: $0.04$) for both pipelines in the absence of MCA. We can
+see that inducing instabilities through MCA preserves the discriminability in the dense perturbtion setting, and
+and discriminability decreased slightly but remained above the unscaled reference value of $0.65$ in the sparse case.
 This lack of significant decrease in discriminability across MCA perturbations suggests its utility for capturing
-variance within datasets without compromising the robustness and reliability of the dataset as
-a whole, and possibly suggesting this technique as a cost effective and context-agnostic method for dataset
-augmentation.
+variance within datasets without compromising the robustness and reliability of the dataset as a whole, and possibly
+suggests this technique as a cost effective and context-agnostic method for dataset augmentation.
 
-While the discriminability of individuals is essential for the identification of \new{individual} brain networks,
-it is similarly reliant on
-network similarity – or lack of discriminability – across equivalent acquisitions (Hypothesis~2). In this case,
-connectomes were grouped based upon session, rather than subject, and the ability to distinguish one session from
-another based on subsamples was computed within-individual and aggregated. Both the unperturbed and dense
+While the discriminability of individuals is essential for the identification of individual brain networks, it is
+similarly reliant on network similarity – or lack of discriminability – across equivalent acquisitions (Hypothesis~2).
+In this case, connectomes were grouped based upon session, rather than subject, and the ability to distinguish one
+session from another based on subsamples was computed within-individual and aggregated. Both the unperturbed and dense
 perturbation settings perfectly preserved differences between sessions with a score of $1.0$ ($p < 0.005$; optimal
 score: $0.5$; chance: $0.5$), indicating a dominant session-dependent signal for all individuals despite no intended
 biological differences. However, while still significant relative to chance (score: $0.85$ and $0.88$; $p < 0.005$ for
@@ -246,7 +244,7 @@ Though the previous sets of experiments inextricably evaluate the interaction be
 the use of subsampling allowed for characterizing the discriminability of networks sampled from within a single
 acquisition (Hypothesis~3). While this experiment could not be evaluated using reference executions, the networks
 generated with dense perturbations showed near perfect discrimination between subsamples, with scores of $0.99$ and
-$1.0$ ($p < 0.005$; optimal: $0.5$; chance: $0.5$). Given that there is no variability in data acquisition, due to
+$1.0$ ($p < 0.005$; optimal: $0.5$; chance: $0.5$). Given that there was no variability in data acquisition, due to
 undesired effects such as participant motion, or preprocessing, the ability to discriminate between equivalent
 subsamples in this experiment may only be due to instability or bias inherent to the pipelines. The high variability
 introduced through sparse perturbations considerably lowered the discriminability towards chance (score:
@@ -254,8 +252,8 @@ $0.71$ and $0.61$; $p < 0.005$ for all), further supporting this as an effective
 estimates of individual connectivity.
 
 Across all cases, the induced perturbations maintained the ability to discriminate networks on the basis of
-meaningful biological signal alongside a reduction in discriminability due to of off-target signal. This result
-appears strikingly like a manifestation of the well-known bias-variance
+meaningful biological signal alongside a reduction in discriminability due to of off-target signal in the sparse
+perturbation setting. This result appears strikingly like a manifestation of the well-known bias-variance
 tradeoff~\cite{geman1992neural} in machine learning, a concept which observes a decrease in bias as variance is
 favoured by a model. In particular, this highlights that numerical perturbations can be used to not only evaluate the
 stability of pipelines, but that the induced variance may be leveraged for the interpretation as a robust distribution
@@ -419,28 +417,27 @@ performing MCA. The selected subset comprises $100$ individuals ranging in age f
 $54\%$).
 
 Each selected individual had at least a single session of both structural T1-weighted (MPRAGE) and diffusion-weighted
-(DWI) MR imaging data. DWI data was acquired with $137$ diffusion directions \new{in a single shell}; more information regarding the
+(DWI) MR imaging data. DWI data was acquired with $137$ diffusion directions in a single shell; more information regarding the
 acquisition of this dataset can be found in the NKI-RS data release~\cite{Nooner2012-eg}.
 
 In addition to the $100$ sessions mentioned above, $25$ individuals had a second session to be used in a test-retest
 analysis. Two additional copies of the data for these individuals were generated, including only the odd or even
-diffusion directions ($64$ + $9$ B0 volumes = $73$ in either case) \new{such that the acquired data was evenly
-represented across both portions}. This allowed for an extra level of stability evaluation to be performed between the
-levels of MCA and session-level variation.
+diffusion directions ($64$ + $9$ B0 volumes = $73$ in either case) such that the acquired data was evenly
+represented across both portions, and each subsample represented a realistic complete acquisition. This allowed for
+an extra level of stability evaluation to be performed between the levels of MCA and session-level variation.
 
-In total, the dataset is composed of $100$ \new{sub}sampled sessions of data originating from $50$ acquisitions
+In total, the dataset is composed of $100$ subsampled sessions of data originating from $50$ acquisitions
 and $25$ individuals for in depth stability analysis, and an additional $100$ sessions of full-resolution data from
 $100$ individuals for subsequent analyses.
 
 
 \subsection*{Processing}
 The dataset was preprocessed using a standard FSL~\cite{Jenkinson2012-ly} workflow consisting of eddy-current
-correction and alignment. The MNI152 atlas~\cite{lancaster2007bias} was aligned to each session of data \new{via the
-structural images}, and the
-resulting transformation was applied to the DKT parcellation~\cite{Klein2012-vi}. Downsampling the diffusion data took
-place after preprocessing was performed on full-resolution sessions, ensuring that an additional confound was not
-introduced in this process when comparing between downsampled sessions. The preprocessing described here was performed
-once without MCA, and thus is not being evaluated.
+correction and alignment. The MNI152 atlas~\cite{lancaster2007bias} was aligned to each session of data via the
+structural images, and the resulting transformation was applied to the DKT parcellation~\cite{Klein2012-vi}.
+Subsampling the diffusion data took place after preprocessing was performed on full-resolution sessions, ensuring that
+an additional confound was not introduced in this process when comparing between downsampled sessions. The preprocessing
+described here was performed once without MCA, and thus is not being evaluated.
 
 Structural connectomes were generated from preprocessed data using two canonical pipelines from
 Dipy~\cite{Garyfallidis2014-ql}: deterministic and probabilistic. In the deterministic pipeline, a constant solid angle
@@ -450,9 +447,9 @@ fit at each voxel and streamlines were generated by iteratively sampling the res
 In both cases tracking occurred with $8$ seeds per 3D voxel and edges were added to the graph based on the location of
 terminal nodes with weight determined by fiber count.
 
-The random state of \new{both} pipelines was fixed for all analyses. Fixing this random \new{state led to entirely
-deterministic repeated-evaluations of the tools}, and allowed for explicit
-attribution of observed variability to Monte Carlo simulations rather than internal state of the algorithm.
+The random state of both pipelines was fixed for all analyses. Fixing this random state led to entirely
+deterministic repeated-evaluations of the tools, and allowed for explicit attribution of observed variability to
+limitations in tool precision as provoked by Monte Carlo simulations, rather than the internal state of the algorithm.
 
 \subsection*{Perturbations}
 All connectomes were generated with one reference execution where no perturbation was introduced in the processing. For
@@ -476,22 +473,22 @@ distribution of these results can then lead to insights on the stability of the 
 this end, a complete software stack was instrumented with MCA and is made available on GitHub at
 \url{https://github.com/verificarlo/fuzzy}.
 
-Both the RR and PB variants of MCA were used independently for all experiments. As was presented in~\cite{Kiar2020-lb},
-both the degree of instrumentation (i.e. number of affected libraries) and the perturbation mode have an effect on the
-distribution of observed results. For this work, the RR-MCA was applied across the bulk of the relevant \new{operations}
-\new{(those occurring in BLAS, LAPACK, Python, Cython, and Numpy)} and
-is referred to as \new{dense} perturbation. In this case the bulk of numerical operations were affected by MCA.
+The RR variant of MCA was used for all experiments. As was presented in~\cite{Kiar2020-lb}, both the degree of
+instrumentation (i.e. number of affected libraries) and the perturbation mode have an effect on the distribution of
+observed results. For this work, the RR-MCA was applied across the bulk of the relevant operations (those occurring
+in BLAS, LAPACK, Python, Cython, and Numpy) and is referred to as dense perturbation. In this case the bulk of
+numerical operations were affected by MCA.
 
-Conversely, the case in which PB-MCA was applied across the operations in a small subset of operations \new{(those ocurring
-in Python and Cython)} is here referred to as \new{sparse} perturbation. In this case, the inputs to operations within the
+Conversely, the case in which RR-MCA was applied across the operations in a small subset of operations (those ocurring
+in Python and Cython) is here referred to as sparse perturbation. In this case, the inputs to operations within the
 instrumented libraries were perturbed, resulting in less frequent, data-centric perturbations. Alongside the stated theoretical
-differences, \new{sparse} perturbation is considerably less computationally expensive than \new{dense} perturbation.
+differences, sparse perturbation is considerably less computationally expensive than dense perturbation.
 
 All perturbations targeted the least-significant-bit for all data ($t=24$ and $t=53$ in float32 and float64,
-respectively~\cite{Denis2016-wo}). \new{Perturbing the least significant bit importantly serves as a perturbation of
-machine error, and thus is the appropriate precision to be applied globally in complex pipelines.} Simulations were
-performed $20$ times for each pipeline execution \new{for the $100$ sample dataset and $10$ times for the repeated
-measures dataset}. A detailed motivation for the number of simulations can be found in~\cite{Sohier2018-ts}.
+respectively~\cite{Denis2016-wo}). Perturbing the least significant bit importantly serves as a perturbation of
+machine error, and thus is the appropriate precision to be applied globally in complex pipelines. Simulations were
+performed $20$ times for each pipeline execution for the $100$ sample dataset and $10$ times for the repeated
+measures dataset. A detailed motivation for the number of simulations can be found in~\cite{Sohier2018-ts}.
 
 \subsection*{Evaluation}
 
