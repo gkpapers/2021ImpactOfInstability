@@ -1,3 +1,5 @@
+SHELL=/usr/bin/bash
+
 TEX="pdflatex"
 BIBTEX="bibtex"
 FILE="impact-of-instability"

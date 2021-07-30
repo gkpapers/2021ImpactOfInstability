@@ -82,25 +82,25 @@ Bratislav Misic\textsuperscript{1}, Alan C. Evans\textsuperscript{1$\dagger$}, T
 %----------------------------------------------------------------------------------------
 
 \Abstract{The analysis of brain-imaging data requires complex processing pipelines to support findings on brain
-function or pathologies. Recent work has shown that variability in analytical decisions, \new{small amounts of noise,
-or computational environments} can lead to substantial
-differences in the results, endangering the trust in
-conclusions~\cite{botvinik2020variability,bennett2009neural,eklund2016cluster,Kiar2020-lb,salari2020file,Lewis2017-ll,Glatard2015-vc}.
-We explored the instability of results by instrumenting a connectome estimation pipeline with Monte Carlo
-Arithmetic~\cite{Parker1997-qq,Denis2016-wo} to introduce random noise throughout. We evaluated the reliability of the
-connectomes, their features~\cite{Betzel2018-eo,Rubinov2010-fh}, and the impact on
-analysis~\cite{Park2015-uj,Gupta2015-ap}. The stability of results was found to range from perfectly stable to highly
-unstable. This paper highlights the potential of leveraging induced variance in estimates of brain connectivity to
-reduce the bias in networks alongside increasing the robustness of their applications in the classification of
-individual differences. We demonstrate that stability evaluations are necessary for understanding error inherent to
-\new{brain imaging experiments}, and how numerical analysis can be applied to typical analytical workflows \new{both in brain
-imaging and other domains of computational science}. Overall, while the
-extreme variability in results due to analytical instabilities could severely hamper our understanding of brain
-organization, it also leads to an increase in the reliability of datasets.}
+function or pathologies. Recent work has shown that variability in analytical decisions, small amounts of noise,
+or computational environments can lead to substantial differences in the results, endangering the trust in
+conclusions. We explored the instability of results by instrumenting a connectome estimation pipeline with Monte Carlo
+Arithmetic to introduce random noise throughout. We evaluated the reliability of the connectomes, \newtwo{the robustness
+of} their features, and the \newtwo{eventual} impact on analysis. The stability of results was found to range from
+perfectly stable \newtwo{(i.e. all digits of data significant)} to highly unstable \newtwo{(i.e. $0-1$ significant digits)}.
+This paper highlights the potential of leveraging induced variance in estimates of brain connectivity to reduce the
+bias in networks \newtwo{without compromising reliability,} alongside increasing the robustness \new{and potential upper-bound}
+of their applications in the classification of individual differences. We demonstrate that stability evaluations are
+necessary for understanding error inherent to brain imaging experiments, and how numerical analysis can be applied to
+typical analytical workflows both in brain imaging and other domains of computational science\newtwo{s, as the techniques
+used were data and context agnostic and globally relevant}. Overall, while the extreme variability in results due to analytical instabilities
+could severely hamper our understanding of brain organization, it also \new{affords us the opportunity to} increase the
+robustness of findings.}
 
 %----------------------------------------------------------------------------------------
 
 \newcommand{\new}[1]{{#1}}
+\newcommand{\newtwo}[1]{{\color{blue}#1\color{black}}}
 
 \begin{document}
 
@@ -115,6 +115,7 @@ organization, it also leads to an increase in the reliability of datasets.}
 
 \onecolumn
 
+\section*{Introduction}
 The modelling of brain networks, called connectomics, has shaped our understanding of the structure and function
 of the brain across a variety of organisms and scales over the last
 decade~\cite{behrens2012human,xia2016connectomic,morgan2013not,van2016comparative,Rubinov2010-fh,Dubois2016-yr}.
@@ -126,18 +127,20 @@ therapeutics~\cite{fornito2015connectomics,deco2014great,xie2012mapping,filippi2
 However, the analysis of brain imaging data relies on complex computational methods and software. Tools are
 trusted to perform everything from pre-processing tasks to downstream statistical evaluation. While these tools
 undoubtedly undergo rigorous evaluation on bespoke datasets, in the absence of ground-truth this is often evaluated
-through measures of reliability~\cite{Bartko1966-tl,Brandmaier2018-tk,bridgeford2020elim,Kiar2018-jt}, proxy outcome
-statistics, or agreement with existing theory. Importantly, this means that tools are not necessarily of known or
+through measures of reliability~\cite{Bartko1966-tl,Brandmaier2018-tk,bridgeford2020elim,Kiar2018-jt,antonakakis2020inter}, proxy outcome
+statistics, or agreement with existing theory. Importantly, this means that tools \newtwo{and datasets} are not necessarily of known or
 consistent quality, and it is not uncommon that equivalent experiments may lead to diverging
-conclusions~\cite{botvinik2020variability,Lewis2017-ll,Glatard2015-vc,salari2020file}. While many scientific
+conclusions~\cite{botvinik2020variability,bennet2009neural,eklund2016cluster,Kiar2020-lb,Lewis2017-ll,Glatard2015-vc,salari2020file}. While many scientific
 disciplines suffer from a lack of reproducibility~\cite{baker20161}, this was recently explored in brain imaging by a
 $70$ team consortium which performed equivalent analyses and found widely inconsistent
-results~\cite{botvinik2020variability}, and it is likely that software instabilities played a role.
+results~\cite{botvinik2020variability}, and it is likely that software instabilities played a role. \newtwo{This study
+does not broach dataset differences, but there are considerable works which demonstrate that data selection may compound
+these effects(e.g. ~\cite{antonakakis2020inter,bridgeford2020elim})}.
 
 The present study approached evaluating reproducibility from a computational perspective in which a series of brain
 imaging studies were numerically perturbed \new{in} such \new{a way} that the plausibility of results was not affected, and the
 implications of the observed instabilities \new{on downstream analyses} were quantified. We accomplished this through the use of Monte Carlo
-Arithmetic (MCA)~\cite{Parker1997-qq}, a technique which enables characterization of the sensitivity of a system to
+Arithmetic (MCA)~\cite{Parker1997-qq,Denis2016-wo}, a technique which enables characterization of the sensitivity of a system to
 small \new{numerical} perturbations. \new{This is importantly distinct from data perturbation experiments where the underlying
 datasets are manipulated or pathologies may be simulated, and allows for the evaluation of experimental uncertainty in real-world
 settings.} We explored the impact of \new{numerical} perturbations through the direct comparision of structural connectomes,
@@ -147,6 +150,7 @@ variability may be harnessed to increase the discriminability of datasets, in an
 \new{Finally, we} make recommendations for the roles \new{perturbation} analyses may play in brain imaging research \new{and beyond}.
 
 %------------------------------------------------
+\section*{Results}
 \subsection*{Graphs Vary Widely With Perturbations}
 \begin{figure*}[hbt]\centering
 \includegraphics[width=0.98\linewidth]{figures/fig1_absolute_differences.pdf}
@@ -212,7 +216,7 @@ subject) differences, session, and subsample. The performance is reported as mea
 discriminable dataset would be represented by a score of $1.0$, the chance performance, indicating minimal discriminability, is
 $1 /$the number of classes. $H_3$ could not be tested using the reference executions due to too few possible
 comparisons. The alternative hypothesis, indicating significant discrimination, was accepted for all experiments, with
-$p < 0.005$.}
+$p < 0.005$ \newtwo{after correcting for multiple comparisons~\cite{}}.}
 \vspace{5pt}
 \input{figures/tab1_discrim.tex}
 \label{tab:discrim}
@@ -310,8 +314,11 @@ indicate random-chance performance, and the orange dots show the performance usi
 While the variability of connectomes and their features was summarized above, networks are commonly used as inputs to
 machine learning models tasked with learning brain-phenotype relationships~\cite{Dubois2016-yr}. To explore the
 stability of these analyses, we modelled the relationship between high- or low- Body Mass Index (BMI) groups and brain
-connectivity using standard dimensionality reduction and classification tools~\cite{Park2015-uj,Gupta2015-ap}, and
-compared this to reference and random performance (Figure~\ref{fig:bmi}).
+connectivity using standard dimensionality reduction and classification tools. \newtwo{In particular, we used Principal
+Component Analysis followed by a Logistic Regression classifier to predict BMI label, and demonstrated similar performance
+to previous work which adopted similar techniques for this task~\cite{Park2015-uj,Gupta2015-ap}. We}
+compared \newtwo{the performance achieved across numerically perturbed samples to both the} reference and random
+performance (Figure~\ref{fig:bmi}).
 
 The analysis was perturbed through distinct samplings of the dataset across both pipelines and perturbation methods.
 The accuracy and F1 score for the perturbed models varied from $0.520$~–~$0.716$ and $0.510$~–~$0.725$, respectively,
@@ -332,7 +339,7 @@ variability in networks directly, the two techniques capture similar variability
 phenotypic variable. Given the dramatic reduction in computational overhead, a sparse instrumentation may be preferred
 when processing datasets for eventual application in modelling brain-phenotype relationships.}
 
-\subsection*{Discussion}
+\section*{Discussion}
 
 The perturbation of structural connectome estimation pipelines with small amounts of noise, on the order of machine
 error, led to considerable variability in derived brain graphs. Across all analyses the stability of results ranged
@@ -384,7 +391,9 @@ data collection.
 \paragraph{Shortcomings and Future Questions}
 Given the complexity of recompiling complex software libraries, pre-processing was not perturbed in these experiments
 \new{as the instrumentation of the canonical workflow used in diffusion image processing would have added considerable
-technical complexity and computational overhead to the large set of experiments performed here}.
+technical complexity and computational overhead to the large set of experiments performed here}\newtwo{; similarly, this
+complexity along with the added layer of difficulty in comparing instrumentations meant that only algorithms within a
+single library were tested}.
 Other work has shown that linear registration, a core piece of many elements of pre-processing such as motion
 correction and alignment, is sensitive to minor perturbations~\cite{Glatard2015-vc}. It is likely that the
 instabilities across the entire processing workflow would be compounded with one another, resulting in even greater
@@ -408,7 +417,7 @@ scientific computing – both in neuroimaging and more broadly – towards a par
 of the trustworthiness of claims alongside the claims themselves.
 
 \newpage
-\section*{Methods}
+\section*{Materials \& Methods}
 
 \subsection*{Dataset}
 The Nathan Kline Institute Rockland Sample (NKI-RS)~\cite{Nooner2012-eg} dataset contains high-fidelity imaging and
@@ -497,7 +506,7 @@ measures dataset. A detailed motivation for the number of simulations can be fou
 The magnitude and importance of instabilities in pipelines can be considered at a number of analytical levels, namely:
 the induced variability of derivatives directly, the resulting downstream impact on summary statistics or features, or
 the ultimate change in analyses or findings. We explore the nature and severity of instabilities through each of these
-lenses. Unless otherwise stated, all p-values were computed using Wilcoxon signed-rank tests. \new{To avoid biasing
+lenses. Unless otherwise stated, all p-values were computed using Wilcoxon signed-rank tests \newtwo{and corrected for multiple comparisons}. \new{To avoid biasing
 these statistics in this unique repeated-measures context, tests were performed across sets of independent
 observations and then the results were aggregated in all cases.}
 
