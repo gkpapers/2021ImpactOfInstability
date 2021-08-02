@@ -660,9 +660,7 @@ contributions made by GK. The authors declare no competing interests for this wo
 materials should be addressed to Tristan Glatard at \url{tristan.glatard@concordia.ca}.
 
 \subsection*{Acknowledgments} 
-This research was financially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC)
-(award no. CGSD3-519497-2018). This work was also supported in part by funding provided by Brain Canada, in partnership
-with Health Canada, for the Canadian Open Neuroscience Platform initiative.
+This work was supported in partnership with Health Canada, for the Canadian Open Neuroscience Platform initiative.
 
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
@@ -703,14 +701,14 @@ and thus this analysis was demoted to the supplement material}.
 \section{Complete Discriminability Analysis}
 \label{supsec:discrimfull}
 
-\begin{table*}[ht]\centering
+\begin{table}[ht]\centering
 \caption{The complete results from the Discriminability analysis, with results reported as mean~$\pm$~standard
 deviation Discriminability. As was the case in the condensed table, the alternative hypothesis, indicating significant
 separation across groups, was accepted for all experiments, with $p < 0.005$.}
 \vspace{5pt}
 \input{figures/tabS1_discrim_full.tex}
 \label{stab:discrim_full}
-\end{table*}
+\end{table}
 
 The complete discriminability analysis includes comparisons across more axes of variability than the condensed version.
 The reduction in the main body was such that only axes which would be relevant for a typical analysis were presented.
@@ -749,18 +747,6 @@ the reference execution performance was communicated as the scaled quantity.
 \section{Univariate Graph Statistics}
 \label{supsec:univar}
 
-\begin{figure}[ht]\centering
-\includegraphics[width=\linewidth]{figures/figS2_univariate_differences.pdf}
-\caption{Distribution and stability assessment of univariate graph statistics. (\textbf{A}, \textbf{B}) The
-distributions of each computed univariate statistic across all subjects and perturbations for \new{dense} and \new{sparse}
-settings, respectively. There was no significant difference between the distributions in A and B. (\textbf{C},
-\textbf{D}; top) The number of significant decimal digits in each statistic across perturbations, averaged across
-individuals. The dashed red line refers to the maximum possible number of significant digits.
-(\textbf{C}, \textbf{D}; bottom) The percentage of connectomes which were deemed significantly different
-($p < 0.05$) from the others obtained for an individual.}
-\label{sfig:univariate}
-\end{figure}
-
 Figure~\ref{sfig:univariate} explores the stability of univariate graph-theoretical metrics computed from the perturbed
 graphs, including modularity, global efficiency, assortativity, average path length, and edge count. When aggregated
 across individuals and perturbations, the distributions of these statistics (Figures~\ref{sfig:univariate}A and
@@ -779,6 +765,18 @@ deterministic pipeline ($p < 0.0001$; exploratory) for all features except modul
 features from connectomes generated in the \new{sparse} perturbation setting, no statistic was stable with more than $3$
 significant digits or a false positive rate lower than nearly $6\%$ (Figure~\ref{sfig:univariate}D). The deterministic
 pipeline was more stable than the probabilistic pipeline in this setting ($p < 0.0001$; exploratory).
+
+\begin{figure}[bhtp!]\centering
+\includegraphics[width=0.8\linewidth]{figures/figS2_univariate_differences.pdf}
+\caption{Distribution and stability assessment of univariate graph statistics. (\textbf{A}, \textbf{B}) The
+distributions of each computed univariate statistic across all subjects and perturbations for \new{dense} and \new{sparse}
+settings, respectively. There was no significant difference between the distributions in A and B. (\textbf{C},
+\textbf{D}; top) The number of significant decimal digits in each statistic across perturbations, averaged across
+individuals. The dashed red line refers to the maximum possible number of significant digits.
+(\textbf{C}, \textbf{D}; bottom) The percentage of connectomes which were deemed significantly different
+($p < 0.05$) from the others obtained for an individual.}
+\label{sfig:univariate}
+\end{figure}
 
 Two notable differences between the two perturbation methods are, first, the uniformity in the stability of the
 statistics, and second, the dramatic decline in stability of individual statistics in the \new{sparse} perturbation setting
